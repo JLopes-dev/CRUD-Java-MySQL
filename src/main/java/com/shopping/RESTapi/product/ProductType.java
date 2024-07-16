@@ -1,4 +1,4 @@
-package com.shopping.RESTapi.Enums;
+package com.shopping.RESTapi.product;
 
 public enum ProductType {
 

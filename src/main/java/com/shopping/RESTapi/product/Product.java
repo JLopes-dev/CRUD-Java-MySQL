@@ -1,7 +1,5 @@
-package com.shopping.RESTapi.models;
+package com.shopping.RESTapi.product;
 
-import com.shopping.RESTapi.DTOs.DTOProduct;
-import com.shopping.RESTapi.Enums.ProductType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

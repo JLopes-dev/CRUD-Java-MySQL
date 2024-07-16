@@ -1,6 +1,4 @@
-package com.shopping.RESTapi.DTOs;
-
-import com.shopping.RESTapi.Enums.ProductType;
+package com.shopping.RESTapi.product;
 
 public record DTOProduct(
         String name,
