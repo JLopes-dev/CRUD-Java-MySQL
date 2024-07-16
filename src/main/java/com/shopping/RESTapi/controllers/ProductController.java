@@ -1,6 +1,9 @@
-package com.shopping.RESTapi.product;
+package com.shopping.RESTapi.controllers;
 
 
+import com.shopping.RESTapi.dtos.DTOProduct;
+import com.shopping.RESTapi.models.Product;
+import com.shopping.RESTapi.repositorys.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,20 +22,20 @@ public class ProductController {
     ProductRepository repository;
 
     @GetMapping
-    public Page<Product> returnAllProducts(@PageableDefault(size = 20, sort = "name") Pageable pageable){
-        return repository.findAll(pageable);
+    public ResponseEntity<Page<Product>> returnAllProducts(@PageableDefault(size = 20, sort = "name") Pageable pageable){
+        return ResponseEntity.ok(repository.findAll(pageable));
     }
 
     @PostMapping
     @Transactional
-    public ResponseEntity<String> registerProduct(@RequestBody DTOProduct data){
+    public ResponseEntity registerProduct(@RequestBody DTOProduct data){
         repository.save(new Product(data));
         return ResponseEntity.status(201).body("Successfully created product");
     }
 
     @PutMapping("/{id}")
     @Transactional
-    public ResponseEntity<String> updateOneProduct(@PathVariable Long id, @RequestBody DTOProduct data){
+    public ResponseEntity updateOneProduct(@PathVariable Long id, @RequestBody DTOProduct data){
         Optional<Product> product = repository.findById(id);
         if (product.isEmpty()){
             return ResponseEntity.status(404).body("Product not found");
@@ -42,13 +45,13 @@ public class ProductController {
     }
     @DeleteMapping("/{id}")
     @Transactional
-    public ResponseEntity<String> deleteOneProduct(@PathVariable Long id){
+    public ResponseEntity deleteOneProduct(@PathVariable Long id){
         Optional<Product> product = repository.findById(id);
         if (product.isEmpty()){
             return ResponseEntity.status(404).body("Product not found");
         }
         repository.deleteById(product.get().getId());
-        return ResponseEntity.status(200).body("Product deleted successfully");
+        return ResponseEntity.noContent().build();
     }
 
 }
