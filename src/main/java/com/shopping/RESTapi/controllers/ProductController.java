@@ -11,7 +11,10 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponents;
+import org.springframework.web.util.UriComponentsBuilder;
 
+import java.net.URI;
 import java.util.Optional;
 
 @RestController
@@ -28,9 +31,10 @@ public class ProductController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity registerProduct(@RequestBody DTOProduct data){
-        repository.save(new Product(data));
-        return ResponseEntity.status(201).body("Successfully created product");
+    public ResponseEntity registerProduct(@RequestBody DTOProduct data, UriComponentsBuilder uriBuilder){
+        Product productCreated = repository.save(new Product(data));
+        URI uri = uriBuilder.path("/product/{id}").buildAndExpand(productCreated.getId()).toUri();
+        return ResponseEntity.created(uri).body(new DTOProduct(productCreated));
     }
 
     @PutMapping("/{id}")
@@ -41,7 +45,7 @@ public class ProductController {
             return ResponseEntity.status(404).body("Product not found");
         }
         product.get().updateProduct(data);
-        return ResponseEntity.status(204).build();
+        return ResponseEntity.ok(new DTOProduct(product.get()));
     }
     @DeleteMapping("/{id}")
     @Transactional

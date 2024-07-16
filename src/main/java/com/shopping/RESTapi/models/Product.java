@@ -18,14 +18,16 @@ public class Product {
     private String name;
     private Double price;
     private Integer quantity;
+
     @Enumerated(EnumType.STRING)
-    private ProductType product_type;
+    @Column(name = "product_type")
+    private ProductType productType;
 
     public Product(DTOProduct data) {
         this.name = data.name();
         this.price = data.price();
         this.quantity = data.quantity();
-        this.product_type = data.product_type();
+        this.productType = data.productType();
     }
 
     public void updateProduct(DTOProduct data){
@@ -38,8 +40,8 @@ public class Product {
         if (data.quantity() != null){
             this.quantity = data.quantity();
         }
-        if (data.product_type() != null){
-            this.product_type = data.product_type();
+        if (data.productType() != null){
+            this.productType = data.productType();
         }
     }
 }
