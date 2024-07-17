@@ -44,12 +44,9 @@ public class ProductController {
     @PutMapping("/{id}")
     @Transactional
     public ResponseEntity updateOneProduct(@PathVariable Long id, @RequestBody DTOProduct data){
-        Optional<Product> product = repository.findById(id);
-        if (product.isEmpty()){
-            return ResponseEntity.status(404).body("Product not found");
-        }
-        product.get().updateProduct(data);
-        return ResponseEntity.ok(new DTOProduct(product.get()));
+        Product product = repository.getReferenceById(id);
+        product.updateProduct(data);
+        return ResponseEntity.ok(new DTOProduct(product));
     }
     @DeleteMapping("/{id}")
     @Transactional
