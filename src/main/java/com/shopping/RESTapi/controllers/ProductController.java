@@ -11,7 +11,6 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
@@ -27,6 +26,11 @@ public class ProductController {
     @GetMapping
     public ResponseEntity<Page<Product>> returnAllProducts(@PageableDefault(size = 20, sort = "name") Pageable pageable){
         return ResponseEntity.ok(repository.findAll(pageable));
+    }
+    @GetMapping("/{id}")
+    public ResponseEntity findProductById(@PathVariable Long id){
+        Product product = repository.getReferenceById(id);
+        return ResponseEntity.ok(new DTOProduct(product));
     }
 
     @PostMapping
