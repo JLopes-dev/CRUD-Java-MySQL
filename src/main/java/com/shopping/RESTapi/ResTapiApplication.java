@@ -9,5 +9,4 @@ public class ResTapiApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(ResTapiApplication.class, args);
 	}
-
 }

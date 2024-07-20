@@ -1,4 +1,4 @@
-package com.shopping.RESTapi.infra;
+package com.shopping.RESTapi.infra.exceptions;
 
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.ResponseEntity;
