@@ -1,6 +1,5 @@
 package com.shopping.RESTapi.models;
 
-import com.shopping.RESTapi.dtos.DTOLogin;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,7 +16,7 @@ import java.util.List;
 @Getter
 @Table(name = "users")
 @Entity(name = "User")
-public class User {
+public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -25,8 +24,42 @@ public class User {
     private String login;
     private String password;
 
-    public User(String login, String passwordHash) {
+    public User(String login, String password) {
         this.login = login;
-        this.password = passwordHash;
+        this.password = password;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority("USER_ROLE"));
+    }
+
+    @Override
+    public String getPassword(){
+        return this.password;
+    }
+    @Override
+    public String getUsername() {
+        return this.login;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 }

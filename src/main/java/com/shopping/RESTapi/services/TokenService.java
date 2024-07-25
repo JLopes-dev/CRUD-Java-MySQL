@@ -1,4 +1,4 @@
-package com.shopping.RESTapi.infra.security;
+package com.shopping.RESTapi.services;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -12,25 +12,25 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 
 @Service
-public class JWTService {
-
+public class TokenService {
     @Value("${spring.dotenv.jwt.sign}")
-    private String jwtSign;
+    private String tokenSign;
 
-    public String tokenGeneration(User user){
+    public String createTokenJWT(User user){
         try {
-            Algorithm algorithm = Algorithm.HMAC256(jwtSign);
+            Algorithm algorithm = Algorithm.HMAC256(tokenSign);
             return JWT.create()
                     .withIssuer("Product RestAPI")
                     .withSubject(user.getLogin())
-                    .withExpiresAt(expirationDate())
+                    .withExpiresAt(expiresAt())
                     .sign(algorithm);
         } catch (JWTCreationException exception){
-            throw new RuntimeException("Houve algum erro ao gerar o token: ", exception);
+            throw new RuntimeException("Houve um erro ao gerar o token JWT", exception);
         }
     }
 
-    public Instant expirationDate(){
+    public Instant expiresAt(){
         return LocalDateTime.now().plusHours(2).toInstant(ZoneOffset.of("-03:00"));
     }
+
 }

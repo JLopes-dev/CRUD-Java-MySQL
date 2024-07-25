@@ -2,7 +2,8 @@ package com.shopping.RESTapi.repositorys;
 
 import com.shopping.RESTapi.models.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.security.core.userdetails.UserDetails;
 
 public interface UserRepository extends JpaRepository<User, Long> {
-    User findByLogin(String login);
+    UserDetails findByLogin(String login);
 }
